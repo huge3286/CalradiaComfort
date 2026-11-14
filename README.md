@@ -5,7 +5,7 @@ Local test candidate **v0.23.0** for Mount & Blade II: Bannerlord **1.5.7**. War
 | Settings group | Defaults | Features |
 | --- | --- | --- |
 | Convenience | On | Skip the opening story; recruit eligible common or noble troops with one click. Recruitment keeps normal costs, party capacity and relations. |
-| Cheats | Off; enable individually in Mod Options | Max hero progression, both perks, Steam achievement eligibility with mods, pooled troop XP, one-click maximum troop tier, clan party cap, companion cap and allied map speed. Maximum troop tier requires pooled XP and pays all normal upgrade costs. |
+| Cheats | Off by default. Enable individually in Mod Options. | Max out clan heroes' skills and attributes, unlock both perks, earn Steam achievements with mods, share troop XP, upgrade troops to max tier in one click, set custom clan party and companion limits, or speed up friendly parties. One-click troop upgrades require Shared Troop XP and charge the normal cost for each step. |
 
 Story skip is selected when starting a new campaign and preserves the Dragon Banner decision. With War Sails enabled it also skips the DLC's opening rescue story. The mod keeps its existing `StorySkip` module ID and story save keys. This candidate uses a separate settings profile so previously enabled cheats are not imported automatically. Turning cheats off doesn't undo gains already written to a save.
 
@@ -18,7 +18,7 @@ Story skip is selected when starting a new campaign and preserves the Dragon Ban
 
 Test the English settings and recruitment screens, Convenience/Cheats defaults, new campaign and old save loading, and progression with the cheat explicitly enabled. Test with War Sails on and off if available.
 
-Validation so far: built against Bannerlord 1.5.7. Isolated startup checks ran the real module entry point and registered its UI extensions both with War Sails and with its assembly excluded. They also verified all ten option defaults. Launching the actual game and loading a save still need playtesting.
+On Bannerlord 1.5.7, the game started and loaded a test save in English and Simplified Chinese with War Sails disabled. Playtesting also covered story skip in a new campaign, one-click recruitment, and max hero growth. Isolated startup checks covered both DLC configurations and all ten option defaults. Loading a legacy War Sails save and earning a Steam achievement still need playtesting.
 
 ## Build from source
 
