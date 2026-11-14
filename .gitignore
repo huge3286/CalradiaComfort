@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+/outputs/
+/.vs/
+*.user
+*.suo
+*.sav
+*.dmp
+*.log
+*.zip

@@ -1,0 +1,11 @@
+<Items>
+  <!-- A normal native throwing-stone stack with a fire-pot visual and impact payload. -->
+  <Item multiplayer_item="false" id="comfort_portable_fire_pot" name="便携火罐" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" flying_mesh="projectile_pot" mesh="projectile_pot" holster_mesh="stone_holster" holster_mesh_with_weapon="stone_holster" weight="1.5" difficulty="0" appearance="1" Type="Thrown" item_holsters="throwing_stone:throwing_stone_2" value="0">
+    <ItemComponent>
+      <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="10" physics_material="burning_jar" accuracy="45" thrust_speed="102" speed_rating="102" missile_speed="55" weapon_length="10" thrust_damage="2300" fire_damage="1000" item_usage="stone" flying_sound_code="event:/mission/combat/boulder/passby" trail_particle_name="psys_game_burning_jar_trail" rotation_speed="0, -3.0, 0">
+        <WeaponFlags AttachAmmoToVisual="true" RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" LeavesTrail="true" Burning="true" AffectsAreaBig="true" AmmoBreaksOnBounceBack="true" CanKillEvenIfBlunt="true" />
+      </Weapon>
+    </ItemComponent>
+    <Flags />
+  </Item>
+</Items>
