@@ -39,41 +39,23 @@ namespace StorySkip
             _harmony = harmony;
             ComfortBranding.InitializePatches(harmony);
             StorySkipStoryMode.InitializePatches(harmony);
-            StorySkipNaval.InitializePatches(harmony);
+            if (NavalSupport.IsActive)
+                NavalSupport.Initialize(harmony);
             EnableAchievements.InitializePatches(harmony);
             BothPerks.InitializePatches(harmony);
             LearningLimitSkills.InitializePatches(harmony);
             SharedTroopExperience.InitializePatches(harmony);
             SharedTroopExperienceUI.InitializePatches(harmony);
             QuickRecruitment.InitializePatches(harmony);
-            InstantConstruction.InitializePatches(harmony);
-            MatrilinealMarriage.InitializePatches(harmony);
-            PluralMarriage.InitializePatches(harmony);
-            PluralMarriageUI.InitializePatches(harmony);
-            ImmediateMarriageBarter.InitializePatches(harmony);
-            DiscardItemGold.InitializePatches(harmony);
-            HeroLiveLocationUI.InitializePatches(harmony);
             ClanPartyLimit.InitializePatches(harmony);
             ClanCompanionLimit.InitializePatches(harmony);
             AlliedPartySpeed.InitializePatches(harmony);
-            PlayerOverwhelmingAttack.InitializePatches(harmony);
-            InstantSiegeAssault.InitializePatches(harmony);
-            QuietRelationNotifications.InitializePatches(harmony);
-            PortableFirePotEquipment.InitializePatches(harmony);
-            GarrisonResettlement.InitializePatches(harmony);
-            ClanPartyStrategy.InitializePatches(harmony);
         }
 
         protected override void OnSubModuleUnloaded()
         {
             QuickRecruitmentUI.Cleanup();
-            InstantConstruction.SetCampaignReady(false);
-            PluralMarriageCampaignBehavior.ClearCurrent();
-            ImmediateMarriageBarter.ClearSession();
-            DiscardItemGold.ClearSession();
-            HeroLiveLocationUI.ClearSession();
             AlliedPartySpeed.ClearSession();
-            ClanPartyStrategyBehavior.ClearCurrent();
             base.OnSubModuleUnloaded();
         }
 
@@ -81,10 +63,6 @@ namespace StorySkip
         {
             base.OnGameStart(game, gameStarterObject);
             StorySkipState.SetTargetCampaign(false);
-            ClanPartyStrategyBehavior.ClearCurrent();
-            ImmediateMarriageBarter.ClearSession();
-            DiscardItemGold.ClearSession();
-            HeroLiveLocationUI.ClearSession();
             AlliedPartySpeed.ClearSession();
             if (gameStarterObject is CampaignGameStarter starter)
             {
@@ -94,15 +72,6 @@ namespace StorySkip
                 starter.AddBehavior(new LearningLimitSkillsCampaignBehavior());
                 starter.AddBehavior(new EnableAchievementsCampaignBehavior());
                 starter.AddBehavior(new SharedTroopExperienceCampaignBehavior());
-                starter.AddBehavior(new InstantConstructionCampaignBehavior());
-                starter.AddBehavior(new PluralMarriageCampaignBehavior());
-                starter.AddBehavior(new ReleasedCaptiveCourtshipCampaignBehavior());
-                starter.AddBehavior(new InstantPregnancyCampaignBehavior());
-                starter.AddBehavior(new DiscardItemGoldCampaignBehavior());
-                starter.AddBehavior(new SellClanLordPrisonersCampaignBehavior());
-                starter.AddBehavior(new PortableFirePotsCampaignBehavior());
-                starter.AddBehavior(new CapitalGainsCampaignBehavior());
-                starter.AddBehavior(new ClanPartyStrategyBehavior());
             }
         }
 
@@ -147,7 +116,7 @@ namespace StorySkip
         public override void RegisterEvents()
         {
             CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
-            CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, OnCharacterCreationFinished);
+            CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, _ => OnCharacterCreationFinished());
             CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, OnGameLoadFinished);
             CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, TryApply);
             CampaignEvents.TickEvent.AddNonSerializedListener(this, OnTick);
@@ -208,12 +177,12 @@ namespace StorySkip
 
         private void OnHeroComesOfAge(Hero hero)
         {
-            if (_isTargetCampaign && _navalApplied && !_sisterSkillsApplied &&
+            if (NavalSupport.IsActive && _isTargetCampaign && _navalApplied && !_sisterSkillsApplied &&
                 hero == StoryModeHeroes.LittleSister)
             {
                 try
                 {
-                    _sisterSkillsApplied = StorySkipNaval.OnSisterComesOfAge(hero);
+                    _sisterSkillsApplied = NavalSupport.SisterComesOfAge(hero);
                 }
                 catch (Exception ex)
                 {
@@ -258,9 +227,9 @@ namespace StorySkip
                 Debug.Print("[StorySkip] Dragon Banner choice cleanup failed: " + ex);
             }
 
-            if (_storyApplied && _bannerCollectionQuestsCompleted &&
-                _navalApplied && _navalOriginalSuccessApplied &&
-                _navalCrewRewardApplied && _teveaQuestCompleted)
+            bool useNaval = NavalSupport.IsActive;
+            if (_storyApplied && _bannerCollectionQuestsCompleted && _teveaQuestCompleted &&
+                (!useNaval || (_navalApplied && _navalOriginalSuccessApplied && _navalCrewRewardApplied)))
             {
                 return;
             }
@@ -310,11 +279,11 @@ namespace StorySkip
                 }
             }
 
-            if (!_navalOriginalSuccessApplied)
+            if (useNaval && !_navalOriginalSuccessApplied)
             {
                 try
                 {
-                    _navalOriginalSuccessApplied = StorySkipNaval.Apply(
+                    _navalOriginalSuccessApplied = NavalSupport.Apply(
                         ref _navalQuestStage);
                     _navalApplied |= _navalOriginalSuccessApplied;
                     if (_navalOriginalSuccessApplied && SisterIsAdult())
@@ -329,11 +298,11 @@ namespace StorySkip
                 }
             }
 
-            if (_navalOriginalSuccessApplied && !_navalCrewRewardApplied)
+            if (useNaval && _navalOriginalSuccessApplied && !_navalCrewRewardApplied)
             {
                 try
                 {
-                    _navalCrewRewardApplied = StorySkipNaval.TryGrantCrewReward();
+                    _navalCrewRewardApplied = NavalSupport.GrantCrewReward();
                 }
                 catch (Exception ex)
                 {
@@ -342,10 +311,10 @@ namespace StorySkip
             }
 
             if (_storyApplied && _bannerCollectionQuestsCompleted &&
-                _navalOriginalSuccessApplied && _navalCrewRewardApplied &&
+                (!useNaval || (_navalOriginalSuccessApplied && _navalCrewRewardApplied)) &&
                 !_reportedSuccess)
             {
-                Debug.Print("[StorySkip] Completed safe opening quests and prepared the Dragon Banner choice and War Sails rescue.");
+                Debug.Print("[StorySkip] Completed opening quests and prepared the Dragon Banner choice.");
                 _reportedSuccess = true;
             }
         }
@@ -359,7 +328,7 @@ namespace StorySkip
 
         private void TrySisterAdultSkills()
         {
-            if (!_isTargetCampaign || !_navalApplied || _sisterSkillsApplied ||
+            if (!NavalSupport.IsActive || !_isTargetCampaign || !_navalApplied || _sisterSkillsApplied ||
                 !SisterIsAdult())
             {
                 return;
@@ -367,7 +336,7 @@ namespace StorySkip
 
             try
             {
-                _sisterSkillsApplied = StorySkipNaval.EnsureSisterAdultState();
+                _sisterSkillsApplied = NavalSupport.EnsureSisterAdultState();
             }
             catch (Exception ex)
             {

@@ -44,7 +44,7 @@ namespace StorySkip
             MethodInfo setSkill = AccessTools.Method(typeof(Hero), "SetSkillValue",
                 new[] { typeof(SkillObject), typeof(int) });
             MethodInfo initialize = AccessTools.Method(typeof(HeroDeveloper), "InitializeHeroDeveloper",
-                Type.EmptyTypes);
+                Type.EmptyTypes) ?? AccessTools.Method(typeof(HeroDeveloper), "InitializeHeroDeveloper", new[] { typeof(bool) });
             MethodInfo setFocusPoints = AccessTools.PropertySetter(typeof(HeroDeveloper),
                 nameof(HeroDeveloper.UnspentFocusPoints));
             MethodInfo setAttributePoints = AccessTools.PropertySetter(typeof(HeroDeveloper),
@@ -399,7 +399,7 @@ namespace StorySkip
         public override void RegisterEvents()
         {
             CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, StartCampaign);
-            CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, StartCampaign);
+            CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, _ => StartCampaign());
             CampaignEvents.TickEvent.AddNonSerializedListener(this, OnTick);
             CampaignEvents.DailyTickClanEvent.AddNonSerializedListener(this, OnDailyClanTick);
             CampaignEvents.OnHeroChangedClanEvent.AddNonSerializedListener(this, OnHeroChangedClan);

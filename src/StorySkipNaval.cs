@@ -19,7 +19,7 @@ namespace StorySkip
 {
     /// <summary>
     /// Settles the safe War Sails story quests through their original success paths.
-    /// This code targets the NavalDLC 1.2.8 methods in the installed game.
+    /// This code targets the NavalDLC 1.3.7 methods in the installed game.
     /// </summary>
     internal static class StorySkipNaval
     {
@@ -224,8 +224,7 @@ namespace StorySkip
                 // In the original dialogue the player stands at Ostican's port.
                 // An automated map completion needs that same ship anchor,
                 // without moving the player's party.
-                MobileParty.MainParty.Anchor.SetSettlement(
-                    NavalStorylineData.HomeSettlement);
+                MobileParty.MainParty.Anchor.Settlement = NavalStorylineData.HomeSettlement;
             }
             Debug.Print("[StorySkip] Accepted Gunnar's Wave-Steed and twenty crewmen through the original dialogue consequence.");
             return true;

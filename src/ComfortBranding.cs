@@ -1,12 +1,13 @@
 using System;
 using HarmonyLib;
 using SandBox;
+using TaleWorlds.Localization;
 
 namespace StorySkip
 {
     internal static class ComfortBranding
     {
-        internal const string DisplayName = "舒适卡拉迪亚 / Calradia Comfort";
+        internal static string DisplayName => new TextObject("{=cc_mod_name}Calradia Comfort").ToString();
 
         internal static void InitializePatches(Harmony harmony)
         {

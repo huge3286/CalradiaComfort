@@ -10,12 +10,13 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party.PartyTroopManagerPopUp;
 using TaleWorlds.Core.ViewModelCollection.Information;
+using TaleWorlds.Localization;
 
 namespace StorySkip
 {
     internal static class SharedTroopExperienceUI
     {
-        private const string BalanceLabelPrefix = "共享经验：";
+        private static string BalanceLabelPrefix => new TextObject("{=cc_xp_balance}Shared XP:").ToString() + " ";
 
         private static readonly FieldInfo CharacterLogicField =
             AccessTools.Field(typeof(PartyCharacterVM), "_partyScreenLogic");
@@ -166,20 +167,20 @@ namespace StorySkip
         {
             PartyScreenLogic logic = GetLogic(troop);
             if (!CanUseSharedExperience(troop, logic))
-                return "经验：" + FormatExperience(troop.Troop.Xp);
+                return new TextObject("{=cc_xp_amount}XP: {XP}")
+                    .SetTextVariable("XP", FormatExperience(troop.Troop.Xp)).ToString();
 
             StringBuilder text = new StringBuilder(GetBalanceLabel(logic));
-            text.Append("\n主队伍所有普通士兵共用；升级按所选分支扣除经验。\n确认后生效，取消会撤销本次消耗。");
+            text.Append('\n').Append(new TextObject("{=cc_xp_help}Regular troops in the main party share XP. Upgrades use the selected branch's cost. Confirm to spend XP or cancel to undo."));
             CharacterObject[] targets = troop.Character.UpgradeTargets;
             for (int branch = 0; targets != null && branch < targets.Length; branch++)
             {
                 if (targets[branch] == null)
                     continue;
                 text.Append('\n');
-                text.Append(targets[branch].Name);
-                text.Append("：每人 ");
-                text.Append(FormatExperience(troop.Character.GetUpgradeXpCost(PartyBase.MainParty, branch)));
-                text.Append(" 经验");
+                text.Append(new TextObject("{=cc_xp_cost}{TROOP}: {XP} XP per troop")
+                    .SetTextVariable("TROOP", targets[branch].Name)
+                    .SetTextVariable("XP", FormatExperience(troop.Character.GetUpgradeXpCost(PartyBase.MainParty, branch))));
             }
             return text.ToString();
         }

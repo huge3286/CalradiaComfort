@@ -169,7 +169,7 @@ namespace StorySkip
             // disqualification flag are overridden.
             __result = CanOverrideIntegrity() && !State(__instance).ServiceDisconnected;
             __0 = __result ? null : new TextObject(
-                "成就暂不可用：存档版本回退或平台成就服务未连接。");
+                "{=cc_achievements_unavailable}Achievements are unavailable because the game was downgraded or the platform service is disconnected.");
             return false;
         }
 

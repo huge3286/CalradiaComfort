@@ -14,23 +14,19 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <GameRoot Condition="'$(GameRoot)' == ''">D:\game\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</GameRoot>
-    <HarmonyRoot Condition="'$(HarmonyRoot)' == ''">D:\game\Steam\steamapps\workshop\content\261550\2859188632</HarmonyRoot>
-    <McmRoot Condition="'$(McmRoot)' == ''">D:\game\Steam\steamapps\workshop\content\261550\2859238197</McmRoot>
-    <UiExtenderRoot Condition="'$(UiExtenderRoot)' == ''">D:\game\Steam\steamapps\workshop\content\261550\2859222409</UiExtenderRoot>
     <GameBin>$(GameRoot)\bin\Win64_Shipping_Client</GameBin>
     <HarmonyBin>$(HarmonyRoot)\bin\Win64_Shipping_Client</HarmonyBin>
     <McmBin>$(McmRoot)\bin\Win64_Shipping_Client</McmBin>
     <UiExtenderBin>$(UiExtenderRoot)\bin\Win64_Shipping_Client</UiExtenderBin>
     <OutputPath>..\outputs\StorySkip\bin\Win64_Shipping_Client\</OutputPath>
-    <BaseIntermediateOutputPath>..\work\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="netstandard">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\netstandard.dll</HintPath>
+      <HintPath>$(TargetFrameworkDirectory)Facades\netstandard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="0Harmony">
@@ -82,6 +78,10 @@
       <HintPath>$(GameBin)\TaleWorlds.MountAndBlade.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="TaleWorlds.ModuleManager">
+      <HintPath>$(GameBin)\TaleWorlds.ModuleManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="TaleWorlds.ObjectSystem">
       <HintPath>$(GameBin)\TaleWorlds.ObjectSystem.dll</HintPath>
       <Private>False</Private>
@@ -107,7 +107,8 @@
 
   <Target Name="CopyModuleManifest" AfterTargets="Build">
     <Copy SourceFiles="SubModule.xml" DestinationFiles="..\outputs\StorySkip\SubModule.xml" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="ModuleData\comfort_items.xml" DestinationFiles="..\outputs\StorySkip\ModuleData\comfort_items.xml" SkipUnchangedFiles="true" />
+    <ItemGroup><LanguageFiles Include="ModuleData\Languages\**\*.xml" /></ItemGroup>
+    <Copy SourceFiles="@(LanguageFiles)" DestinationFiles="@(LanguageFiles->'..\outputs\StorySkip\ModuleData\Languages\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

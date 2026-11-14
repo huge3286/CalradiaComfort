@@ -8,6 +8,7 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace StorySkip
 {
@@ -197,11 +198,15 @@ namespace StorySkip
         {
             RouteBudget budget;
             if (!TryGetBudget(option, out budget))
-                return "该路线不满足原版升级条件。";
-            var text = new StringBuilder("每名士兵：经验 ").Append(budget.Xp).Append("，金币 ").Append(budget.Gold);
+                return new TextObject("{=cc_route_invalid}This route does not meet the normal upgrade requirements.").ToString();
+            var cost = new TextObject("{=cc_route_cost}Per troop: {XP} XP, {GOLD} gold")
+                .SetTextVariable("XP", budget.Xp.ToString()).SetTextVariable("GOLD", budget.Gold.ToString());
+            var text = new StringBuilder(cost.ToString());
             foreach (var item in budget.Items)
-                text.Append("，").Append(item.Key.GetName()).Append(" × ").Append(item.Value);
-            text.Append("\n可完整升级：").Append(GetAffordableCount(party, troop, option)).Append(" 人\n路线：");
+                text.Append(", ").Append(item.Key.GetName()).Append(" × ").Append(item.Value);
+            text.Append('\n').Append(new TextObject("{=cc_route_count}Can reach final tier: {COUNT}")
+                .SetTextVariable("COUNT", GetAffordableCount(party, troop, option)));
+            text.Append('\n').Append(new TextObject("{=cc_route_path}Route:")).Append(' ');
             for (int i = 0; i < option.Troops.Length; i++)
             {
                 if (i != 0) text.Append(" → ");

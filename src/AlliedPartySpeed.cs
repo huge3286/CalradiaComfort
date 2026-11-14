@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
-using NavalDLC.GameComponents;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.GameComponents;
@@ -12,7 +11,7 @@ namespace StorySkip
 {
     internal static class AlliedPartySpeed
     {
-        private static readonly TextObject SpeedReason = new TextObject("{=comfort_wind_breath}风之气息");
+        private static readonly TextObject SpeedReason = new TextObject("{=comfort_wind_breath}Breath of the Wind");
         private static ConditionalWeakTable<MobileParty, CachedBonus> _speedCache =
             new ConditionalWeakTable<MobileParty, CachedBonus>();
 
@@ -27,8 +26,8 @@ namespace StorySkip
             Type[] finalParameters = { typeof(MobileParty), typeof(ExplainedNumber) };
             Patch(harmony, AccessTools.Method(typeof(DefaultPartySpeedCalculatingModel), "CalculateFinalSpeed", finalParameters),
                 nameof(AfterFinalSpeed));
-            Patch(harmony, AccessTools.Method(typeof(NavalDLCPartySpeedCalculationModel), "CalculateFinalSpeed", finalParameters),
-                nameof(AfterFinalSpeed));
+            if (NavalSupport.IsActive)
+                Patch(harmony, NavalSupport.FindSpeedMethod(finalParameters), nameof(AfterFinalSpeed));
             Patch(harmony, AccessTools.Method(typeof(MobileParty), "IsLastSpeedCacheInvalid", Type.EmptyTypes),
                 nameof(AfterSpeedCacheCheck));
             Patch(harmony, AccessTools.Method(typeof(MobileParty), "CalculateSpeedForPartyUnified", Type.EmptyTypes),

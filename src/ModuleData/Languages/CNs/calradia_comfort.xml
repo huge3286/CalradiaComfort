@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base type="string">
+  <tags><tag language="简体中文" /></tags>
+  <strings>
+    <string id="cc_group_convenience" text="便利功能" />
+    <string id="cc_group_cheats" text="作弊功能" />
+    <string id="cc_mod_name" text="舒适卡拉迪亚" />
+    <string id="cc_opt_story" text="跳过开局剧情" />
+    <string id="cc_opt_story_hint" text="新战役生效：与家人团聚、取得完整龙旗，保留交旗或自立的选择。" />
+    <string id="cc_opt_recruit" text="分类一键招募" />
+    <string id="cc_opt_recruit_hint" text="批量选择符合条件的普通兵或贵族兵，保留关系、费用和人数限制。" />
+    <string id="cc_opt_achievements" text="允许模组下获得 Steam 成就" />
+    <string id="cc_opt_achievements_hint" text="恢复原版成就检查，仍须满足成就条件。" />
+    <string id="cc_opt_perks" text="同时取得双 Perk" />
+    <string id="cc_opt_perks_hint" text="玩家家族英雄达到技能等级后获得双 Perk。" />
+    <string id="cc_opt_growth" text="自动满成长" />
+    <string id="cc_opt_growth_hint" text="补满玩家家族成年英雄的属性、专精与技能。关闭后不回退已有成长。" />
+    <string id="cc_opt_xp" text="士兵共享经验" />
+    <string id="cc_opt_xp_hint" text="主队士兵共享经验，升级仍按原价结算。" />
+    <string id="cc_opt_upgrade" text="士兵一键升到最高级" />
+    <string id="cc_opt_upgrade_hint" text="需要共享经验，逐级支付原版升级费用。" />
+    <string id="cc_opt_party_limit" text="自定义家族部队上限" />
+    <string id="cc_opt_party_limit_hint" text="调整玩家家族的作战部队数量上限。" />
+    <string id="cc_opt_companion_limit" text="自定义同伴上限" />
+    <string id="cc_opt_companion_limit_hint" text="调整玩家家族的同伴数量上限。" />
+    <string id="cc_opt_speed" text="增加己方地图速度" />
+    <string id="cc_opt_speed_hint" text="为己方大地图部队增加固定速度。" />
+    <string id="cc_opt_party_value" text="家族部队上限" />
+    <string id="cc_opt_party_value_hint" text="仅在自定义家族部队上限开启时生效。" />
+    <string id="cc_opt_companion_value" text="同伴上限" />
+    <string id="cc_opt_companion_value_hint" text="仅在自定义同伴上限开启时生效。" />
+    <string id="cc_opt_speed_value" text="己方速度加成" />
+    <string id="cc_opt_speed_value_hint" text="仅在己方地图加速开启时生效。" />
+    <string id="cc_quick_recruit_ordinary_hint" text="将当前页面中可招募的普通兵加入待招募列表，受关系、金币和部队人数限制。点击原版“完成”招募，取消或重置可撤销。" />
+    <string id="cc_quick_recruit_noble_hint" text="将当前页面中各文化贵族兵系的可招募士兵加入待招募列表，包括已经升级的贵族兵。受关系、金币和部队人数限制，完成后招募。" />
+    <string id="cc_quick_recruit_ordinary" text="招募普通兵" />
+    <string id="cc_quick_recruit_noble" text="招募贵族兵" />
+    <string id="cc_ultimate_upgrade_hint" text="选择该兵系的最终兵种，一次升级整栈中能支付完整路线费用的健康士兵。需开启士兵共享经验槽；逐级消耗原版经验、金币、马匹并检查其他条件。不足部分保留原兵种。点击完成后结算，取消可撤销。" />
+    <string id="cc_ultimate_upgrade" text="升至顶级" />
+    <string id="cc_ultimate_upgrade_selection" text="为 {TROOP} 选择最终兵种。逐级支付完整路线的经验、金币、马匹；只升级可完整到达终点的健康士兵，其余保留原兵种。查看选项提示可了解费用和可升级人数。点击部队界面完成后结算，取消可撤销。" />
+    <string id="cc_ultimate_upgrade_title" text="选择最终兵种" />
+    <string id="cc_ultimate_upgrade_confirm" text="升级" />
+    <string id="cc_ultimate_upgrade_cancel" text="取消" />
+    <string id="cc_ultimate_upgrade_done" text="已将 {COUNT} 名{SOURCE}升级为{TARGET}。点击完成后结算，取消可撤销。" />
+    <string id="cc_ultimate_upgrade_rolled_back" text="升级过程中出现异常，已撤销当前升级弹窗打开后的全部变更。请重新选择升级。" />
+    <string id="cc_ultimate_upgrade_unavailable" text="未升级：经验、金币、马匹或其他升级条件不足。" />
+    <string id="comfort_wind_breath" text="风之气息" />
+    <string id="cc_xp_balance" text="共享经验：" />
+    <string id="cc_xp_amount" text="经验：{XP}" />
+    <string id="cc_xp_help" text="主队所有普通士兵共用；升级按所选分支扣除经验。确认后生效，取消会撤销本次消耗。" />
+    <string id="cc_xp_cost" text="{TROOP}：每人 {XP} 经验" />
+    <string id="cc_route_invalid" text="该路线不满足原版升级条件。" />
+    <string id="cc_route_cost" text="每名士兵：经验 {XP}，金币 {GOLD}" />
+    <string id="cc_route_count" text="可完整升级：{COUNT} 人" />
+    <string id="cc_route_path" text="路线：" />
+    <string id="cc_achievements_unavailable" text="成就暂不可用：存档版本回退或平台成就服务未连接。" />
+  </strings>
+</base>

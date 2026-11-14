@@ -471,7 +471,7 @@ namespace StorySkip
         public override void RegisterEvents()
         {
             CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, StartCampaign);
-            CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, StartCampaign);
+            CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, _ => StartCampaign());
             CampaignEvents.TickEvent.AddNonSerializedListener(this, OnTick);
         }
 

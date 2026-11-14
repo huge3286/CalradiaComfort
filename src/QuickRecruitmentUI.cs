@@ -39,13 +39,9 @@ namespace StorySkip
             {
                 typeof(QuickRecruitmentViewModelMixin),
                 typeof(QuickRecruitmentPrefabExtension),
-                typeof(InstantConstructionViewModelMixin),
-                typeof(InstantConstructionPrefabExtension),
                 typeof(UltimateTroopUpgradeCharacterMixin),
                 typeof(UltimateTroopUpgradeSlotsPrefabExtension),
                 typeof(UltimateTroopUpgradePrefabExtension),
-                typeof(HeroLiveLocationViewModelMixin),
-                typeof(HeroLiveLocationPrefabExtension)
             });
             _extender.Enable();
         }
@@ -74,9 +70,9 @@ namespace StorySkip
         public QuickRecruitmentViewModelMixin(RecruitmentVM viewModel) : base(viewModel)
         {
             QuickRecruitOrdinaryHint = new HintViewModel(new TextObject(
-                "{=cc_quick_recruit_ordinary_hint}将当前页面中可招募的普通兵加入待招募列表，受关系、金币和部队人数限制。点击原版“完成”招募，取消或重置可撤销。"));
+                "{=cc_quick_recruit_ordinary_hint}Stage all eligible common troops. Normal relations, costs, and party capacity still apply. Select Done to recruit or cancel to undo."));
             QuickRecruitNobleHint = new HintViewModel(new TextObject(
-                "{=cc_quick_recruit_noble_hint}将当前页面中各文化贵族兵系的可招募士兵加入待招募列表，包括已经升级的贵族兵。受关系、金币和部队人数限制，完成后招募。"));
+                "{=cc_quick_recruit_noble_hint}Stage all eligible troops in noble upgrade trees. Normal relations, costs, and party capacity still apply."));
             QuickRecruitment.StateChanged += OnRecruitmentStateChanged;
             OnRefresh();
         }
@@ -86,8 +82,8 @@ namespace StorySkip
             if (_finalized)
                 return;
 
-            QuickRecruitOrdinaryText = new TextObject("{=cc_quick_recruit_ordinary}招募普通兵").ToString();
-            QuickRecruitNobleText = new TextObject("{=cc_quick_recruit_noble}招募贵族兵").ToString();
+            QuickRecruitOrdinaryText = new TextObject("{=cc_quick_recruit_ordinary}Recruit Common").ToString();
+            QuickRecruitNobleText = new TextObject("{=cc_quick_recruit_noble}Recruit Noble").ToString();
             RefreshAvailability();
         }
 

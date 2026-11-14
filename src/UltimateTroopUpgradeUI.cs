@@ -32,7 +32,7 @@ namespace StorySkip
         public UltimateTroopUpgradeCharacterMixin(PartyCharacterVM viewModel) : base(viewModel)
         {
             UltimateUpgradeHint = new HintViewModel(new TextObject(
-                "{=cc_ultimate_upgrade_hint}选择该兵系的最终兵种，一次升级整栈中能支付完整路线费用的健康士兵。需开启士兵共享经验槽；逐级消耗原版经验、金币、马匹并检查其他条件。不足部分保留原兵种。点击完成后结算，取消可撤销。"));
+                "{=cc_ultimate_upgrade_hint}Upgrade eligible healthy troops directly to a final tier. Requires shared experience and pays the normal cost at every step."));
             OnRefresh();
         }
 
@@ -44,7 +44,7 @@ namespace StorySkip
             _refreshing = true;
             try
             {
-                UltimateUpgradeText = new TextObject("{=cc_ultimate_upgrade}升至顶级").ToString();
+                UltimateUpgradeText = new TextObject("{=cc_ultimate_upgrade}Max Tier").ToString();
                 PartyVM party = GetParty();
                 PartyCharacterVM troop = ViewModel;
                 PartyScreenLogic logic = party?.PartyScreenLogic;
@@ -110,13 +110,13 @@ namespace StorySkip
                 return;
 
             string description = new TextObject(
-                "{=cc_ultimate_upgrade_selection}为 {TROOP} 选择最终兵种。逐级支付完整路线的经验、金币、马匹；只升级可完整到达终点的健康士兵，其余保留原兵种。查看选项提示可了解费用和可升级人数。点击部队界面完成后结算，取消可撤销。")
+                "{=cc_ultimate_upgrade_selection}Choose a final tier for {TROOP}. Experience, gold and mounts are charged for each step. Only troops that can reach the selected tier are upgraded. Confirm the changes on the party screen.")
                 .SetTextVariable("TROOP", troop.Character.Name).ToString();
             MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(
-                new TextObject("{=cc_ultimate_upgrade_title}选择最终兵种").ToString(), description,
+                new TextObject("{=cc_ultimate_upgrade_title}Select Final Tier").ToString(), description,
                 elements, true, 1, 1,
-                new TextObject("{=cc_ultimate_upgrade_confirm}升级").ToString(),
-                new TextObject("{=cc_ultimate_upgrade_cancel}取消").ToString(),
+                new TextObject("{=cc_ultimate_upgrade_confirm}Upgrade").ToString(),
+                new TextObject("{=cc_ultimate_upgrade_cancel}Cancel").ToString(),
                 selected => ConfirmSelection(party, troop, selected), null, string.Empty, true));
         }
 
@@ -136,7 +136,7 @@ namespace StorySkip
             if (upgraded > 0)
             {
                 string message = new TextObject(
-                    "{=cc_ultimate_upgrade_done}已将 {COUNT} 名{SOURCE}升级为{TARGET}。点击完成后结算，取消可撤销。")
+                    "{=cc_ultimate_upgrade_done}Queued an upgrade for {COUNT} {SOURCE} to {TARGET}. Select Done to confirm.")
                     .SetTextVariable("COUNT", upgraded)
                     .SetTextVariable("SOURCE", sourceName)
                     .SetTextVariable("TARGET", option.Target.Name).ToString();
@@ -145,12 +145,12 @@ namespace StorySkip
             else if (upgraded < 0)
             {
                 InformationManager.DisplayMessage(new InformationMessage(new TextObject(
-                    "{=cc_ultimate_upgrade_rolled_back}升级过程中出现异常，已撤销当前升级弹窗打开后的全部变更。请重新选择升级。").ToString()));
+                    "{=cc_ultimate_upgrade_rolled_back}Upgrade failed. Changes made since opening the upgrade panel were rolled back.").ToString()));
             }
             else
             {
                 InformationManager.DisplayMessage(new InformationMessage(new TextObject(
-                    "{=cc_ultimate_upgrade_unavailable}未升级：经验、金币、马匹或其他升级条件不足。").ToString()));
+                    "{=cc_ultimate_upgrade_unavailable}No troops upgraded. Check experience, gold, mounts, and other requirements.").ToString()));
             }
             OnRefresh();
         }
